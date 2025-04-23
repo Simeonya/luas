@@ -1,14 +1,3 @@
---[[
-
-	Russianware Interface Suite
-	by Sirius
-
-	shlex | Designing + Programming
-	iRay  | Programming
-	Max   | Programming
-
-]]
-
 if debugX then
 	warn('Initialising Russianware')
 end
@@ -17,9 +6,6 @@ local function getService(name)
     local service = game:GetService(name)
     return if cloneref then cloneref(service) else service
 end
-
--- Loads and executes a function hosted on a remote URL. Cancels the request if the requested URL takes too long to respond.
--- Errors with the function are caught and logged to the output
 local function loadWithTimeout(url: string, timeout: number?): ...any
 	assert(type(url) == "string", "Expected string, got " .. type(url))
 	timeout = timeout or 5
@@ -27,11 +13,10 @@ local function loadWithTimeout(url: string, timeout: number?): ...any
 	local success, result = false, nil
 
 	local requestThread = task.spawn(function()
-		local fetchSuccess, fetchResult = pcall(game.HttpGet, game, url) -- game:HttpGet(url)
-		-- If the request fails the content can be empty, even if fetchSuccess is true
+		local fetchSuccess, fetchResult = pcall(game.HttpGet, game, url) 
 		if not fetchSuccess or #fetchResult == 0 then
 			if #fetchResult == 0 then
-				fetchResult = "Empty response" -- Set the error message
+				fetchResult = "Empty response" -
 			end
 			success, result = false, fetchResult
 			requestCompleted = true
@@ -68,9 +53,9 @@ local function loadWithTimeout(url: string, timeout: number?): ...any
 	return if success then result else nil
 end
 
-local requestsDisabled = true --getgenv and getgenv().DISABLE_RAYFIELD_REQUESTS
-local InterfaceBuild = '3K3W'
-local Release = "Build 1.672"
+local requestsDisabled = true
+local InterfaceBuild = '1AAA'
+local Release = "Build 1.0.0"
 local RussianwareFolder = "Russianware"
 local ConfigurationFolder = RussianwareFolder.."/Configurations"
 local ConfigurationExtension = ".rfld"
@@ -167,30 +152,6 @@ loadSettings()
 if debugX then
 	warn('Settings Loaded')
 end
-
---if not cachedSettings or not cachedSettings.System or not cachedSettings.System.usageAnalytics then
---	local fileFunctionsAvailable = isfile and writefile and readfile
-
---	if not fileFunctionsAvailable and not useStudio then
---		warn('Russianware Interface Suite | Sirius Analytics:\n\n\nAs you don\'t have file functionality with your executor, we are unable to save whether you want to opt in or out to analytics.\nIf you do not want to take part in anonymised usage statistics, let us know in our Discord at sirius.menu/discord and we will manually opt you out.')
---		analytics = true	
---	else
---		prompt.create(
---			'Help us improve',
---	            [[Would you like to allow Sirius to collect usage statistics?
-
---<font transparency='0.4'>No data is linked to you or your personal activity.</font>]],
---			'Continue',
---			'Cancel',
---			function(result)
---				settingsTable.System.usageAnalytics.Value = result
---				analytics = result
---			end
---		)
---	end
-
---	repeat task.wait() until analytics ~= nil
---end
 
 if not requestsDisabled then
 	if debugX then
